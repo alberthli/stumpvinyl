@@ -1,7 +1,5 @@
 /* Albert Li, 2019
-
-Usage: Trust that the sampling rate of whatever is calling the controller matches the dt variable
-
+	Usage: Trust that the sampling rate of whatever is calling the controller matches the dt variable
 */
 
 class PID_Controller {

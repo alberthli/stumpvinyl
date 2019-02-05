@@ -1,5 +1,6 @@
 /* Albert Li, 2019
-TODO - start/stop code to fully utilize the initialization stuff
+	TODO - start/stop code to fully utilize the initialization stuff
+	TODO - Block diagram and model for y = Gu + H, H = 128, G is the input/output ratio bt motor speed and pwm
 */
 
 #include "PID_Controller.h"
@@ -28,7 +29,6 @@ PID_Controller::~PID_Controller(float kp, float ki, float kd, float samplingTime
 	Kp = kp;
 	Ki = ki * dt;
 	Kd = kd / dt;
-	oiGain = oig;
 
 	// Saturation Values
 	outMin = omin;

@@ -1,27 +1,29 @@
 /* Albert Li, 2019
-TODO - get a motor w/motor to implement and test the computeRPM function
-TODO - get a teensy so we can start matching pins
+	TODO - get a motor w/encoder to implement and test computeRPM()
 */
 
 #include "Motor.h"
 
-#define omin 0
-#define omax 256
+// Min/Max PWM inputs for Teensy
+#define omin 0.0
+#define omax 256.0
 
 Motor::Motor(float kp, float ki, float kd, float samplingTime) {
 	currRpm = 0;
-	rpmMode = RPM_00_MODE;
-	PID = PID_Controller(kp, ki, kd, samplingTime, rpmMode, omin, omax);
+	rpmTarget = 0;
+	PID = PID_Controller(kp, ki, kd, samplingTime, rpmTarget, omin, omax);
 }
 
 Motor::~Motor() {
 
 }
 
-Motor::command() {
+Motor::command(float rpm) {
+	rpmTarget = rpm;
+	PID.setSetpoint(rpm);
 	PID.setInput(computeRPM());
-	PID.computeOutput();
-	// analogWrite([PIN], (int)PID.getOutput()); // Write output 
+	PID.computeOutput(); // output in PWM from 0 to 256
+	// analogWrite([PIN], (int)PID.getOutput()); // Write output
 }
 
 Motor::computeRPM() {
@@ -29,11 +31,6 @@ Motor::computeRPM() {
 	// currRPM = [whatever is read];
 }
 
-Motor::changeRPM(RPM_Mode rpm) {
-	rpmMode = rpm;
-	PID.setSetpoint(rpmMode);
-}
-
 Motor::readTarget() {
-	return rpmMode;
+	return rpmTarget;
 }
